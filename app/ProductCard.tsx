@@ -1,6 +1,13 @@
 import { formatPrice } from "@/lib/utils";
 import Image from "next/image";
 import type { Prisma } from "@/app/generated/prisma";
+import {
+  Card,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 
 type FullProduct = Prisma.ProductGetPayload<{
   select: {
@@ -16,7 +23,7 @@ type FullProduct = Prisma.ProductGetPayload<{
 
 export function ProductCard({ product }: { product: FullProduct }) {
   return (
-    <div className="border rounded-lg p-4">
+    <Card className="pt-0 overflow-hidden">
       <div className="relative aspect-video">
         {product.image && (
           <Image
@@ -28,9 +35,11 @@ export function ProductCard({ product }: { product: FullProduct }) {
           />
         )}
       </div>
-      <h3 className="text-lg font-semibold">{product.name}</h3>
-      <p className="text-white-600">{formatPrice(product.price)}</p>
-      <p className="text-white-600">{product.description}</p>
-    </div>
+      <CardHeader>
+        <CardTitle>{product.name}</CardTitle>
+        <CardDescription>{product.description}</CardDescription>
+      </CardHeader>
+      <CardFooter>{product.price}</CardFooter>
+    </Card>
   );
 }

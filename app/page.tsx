@@ -16,6 +16,7 @@ type FullProduct = Prisma.ProductGetPayload<{
 }>;
 
 export default async function HomePage() {
+  await new Promise((resolve) => setTimeout(resolve, 3000)); // Simulate network delay
   const products = (await prisma.product.findMany({
     select: {
       id: true,
