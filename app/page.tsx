@@ -8,33 +8,27 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
+import { Suspense } from "react";
+import ProductSkeleton from "./ProductSkeleton";
 
 type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>;
 
-export default async function HomePage(props: { searchParams: SearchParams }) {
-  // Simuloidaan pieni viive esim. latausruutua varten
-  await new Promise((resolve) => setTimeout(resolve, 3000));
+const pageSize = 3;
 
-  // 🔑 Tämä on tärkein ero — odotetaan searchParams ennen käyttöä
-  const searchParams = await props.searchParams;
-  const page = Number(searchParams.page) || 1;
-  const pageSize = 3;
+async function Products({ page }: { page: number }) {
   const skip = (page - 1) * pageSize;
 
   // Haetaan tuotteet ja kokonaismäärä rinnakkain
-  const [products, total] = await Promise.all([
-    prisma.product.findMany({
-      skip,
-      take: pageSize,
-    }),
-    prisma.product.count(),
-  ]);
+  const products = await prisma.product.findMany({
+    skip,
+    take: pageSize,
+  });
 
-  const totalPages = Math.ceil(total / pageSize);
+  // Simuloidaan pieni viive esim. latausruutua varten
+  await new Promise((resolve) => setTimeout(resolve, 3000));
 
   return (
-    <main className="container mx-auto p-4">
-      <h1 className="text-3xl font-bold mb-6 text-white-800">Our Products</h1>
+    <>
       <p className="text-white-600 mb-8">Showing {products.length} products</p>
 
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
@@ -42,8 +36,26 @@ export default async function HomePage(props: { searchParams: SearchParams }) {
           <ProductCard key={product.id} product={product} />
         ))}
       </div>
+    </>
+  );
+}
 
-      {/* Sivutus */}
+export default async function HomePage(props: { searchParams: SearchParams }) {
+  // Odotetaan searchParams ennen käyttöä
+  const searchParams = await props.searchParams;
+  const page = Number(searchParams.page) || 1;
+
+  const total = await prisma.product.count();
+  const totalPages = Math.ceil(total / pageSize);
+
+  return (
+    <main className="container mx-auto p-4">
+      <h1 className="text-3xl font-bold mb-6 text-white-800">Our Products</h1>
+
+      <Suspense key={page} fallback={<ProductSkeleton />}>
+        <Products page={page} />
+      </Suspense>
+
       <Pagination className="mt-8">
         <PaginationContent>
           <PaginationItem>
