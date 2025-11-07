@@ -1,6 +1,6 @@
 import { formatPrice } from "@/lib/utils";
 import Image from "next/image";
-import type { Prisma } from "@/app/generated/prisma";
+import type { Product } from "@prisma/client"; // ✅ Tämä ratkaisee ongelman
 import {
   Card,
   CardDescription,
@@ -9,19 +9,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 
-type FullProduct = Prisma.ProductGetPayload<{
-  select: {
-    id: true;
-    name: true;
-    description: true;
-    price: true;
-    image: true;
-    slug: true;
-    categoryId: true;
-  };
-}>;
-
-export function ProductCard({ product }: { product: FullProduct }) {
+export function ProductCard({ product }: { product: Product }) {
   return (
     <Card className="pt-0 overflow-hidden">
       <div className="relative aspect-video">
@@ -39,7 +27,7 @@ export function ProductCard({ product }: { product: FullProduct }) {
         <CardTitle>{product.name}</CardTitle>
         <CardDescription>{product.description}</CardDescription>
       </CardHeader>
-      <CardFooter>{product.price}</CardFooter>
+      <CardFooter>{formatPrice(product.price)}</CardFooter>
     </Card>
   );
 }
