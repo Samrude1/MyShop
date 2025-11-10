@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/pagination";
 import { Suspense } from "react";
 import ProductSkeleton from "./ProductSkeleton";
+import { delay } from "@/lib/utils";
 
 type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>;
 
@@ -24,8 +25,7 @@ async function Products({ page }: { page: number }) {
     take: pageSize,
   });
 
-  // Simuloidaan pieni viive esim. latausruutua varten
-  await new Promise((resolve) => setTimeout(resolve, 3000));
+  await delay(1000); // Simuloidaan viivettä
 
   return (
     <>

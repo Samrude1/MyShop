@@ -31,3 +31,7 @@ export function formatPrice(price: number): string {
     currency: "EUR",
   }).format(price);
 }
+
+export async function delay(ms: number) {
+  await new Promise((resolve) => setTimeout(resolve, ms));
+}
