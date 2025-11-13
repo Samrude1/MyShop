@@ -1,0 +1,59 @@
+🐳 DOCKER + 🧩 PRISMA - CHEATSHEET (VSCode)
+
+========================================
+DOCKER - Yleisimmät komennot
+========================================
+
+Perustoiminnot:
+----------------
+docker --version               # Tarkista versio
+docker ps                      # Näytä käynnissä olevat kontit
+docker ps -a                   # Näytä kaikki kontit
+docker start <kontin_nimi>     # Käynnistä kontti
+docker stop <kontin_nimi>      # Pysäytä kontti
+docker rm <kontin_nimi>        # Poista kontti
+docker rmi <imagen_nimi>       # Poista image
+docker logs <kontin_nimi>      # Näytä logit
+docker system prune -a         # ⚠️ Poistaa kaiken tarpeettoman
+
+Docker Compose (jos käytössä docker-compose.yml):
+-------------------------------------------------
+docker-compose up              # Käynnistä palvelut
+docker-compose up -d           # Käynnistä taustalla
+docker-compose down            # Pysäytä palvelut
+docker-compose ps              # Näytä käynnissä olevat kontit
+docker-compose logs -f         # Näytä reaaliaikaiset logit
+docker-compose up --build      # Rakenna imaget uudelleen
+
+========================================
+PRISMA - Yleisimmät komennot
+========================================
+
+Peruskäyttö:
+-------------
+npx prisma -v                  # Tarkista Prisma CLI -versio
+npx prisma init                # Luo prisma/ -kansion ja asetukset
+npx prisma migrate dev         # Luo ja aja migraatiot dev-tietokantaan
+npx prisma migrate dev --name <nimi>  # Luo nimetty migraatio
+npx prisma db push             # Päivitä tietokanta ilman migraatiota
+npx prisma db pull             # Vedä olemassa oleva rakenne tietokannasta
+npx prisma studio              # Avaa visuaalinen tietokanta-editori
+npx prisma generate            # Luo Prisma Client uudelleen
+
+Tyypillinen Prisma workflow (dev):
+----------------------------------
+1. Muokkaa schema.prisma
+2. Aja migraatio:
+   npx prisma migrate dev --name update-user-model
+3. Käynnistä Prisma Studio:
+   npx prisma studio
+
+========================================
+Pikaohje
+========================================
+
+Docker käynnistys:   docker-compose up -d
+Docker sammutus:     docker-compose down
+
+Prisma migraatio:    npx prisma migrate dev
+Prisma Studio:       npx prisma studio
