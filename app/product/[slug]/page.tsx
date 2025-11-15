@@ -1,3 +1,4 @@
+import { Breadcrumbs } from "@/components/breadcrumbs";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -50,9 +51,20 @@ export default async function ProductPage({
   }
 
   await delay(1000); // Simuloidaan viivettä
+
+  const breadcrumbsItems = [
+    { label: "Products", href: "/" },
+    {
+      label: product.category?.name,
+      href: `/category/${product.category?.slug}`,
+    },
+    { label: product.name, href: `/product/${product.slug}`, active: true },
+  ];
+
   return (
-    <main className="container mx-auto p-4">
-      <Card className="max-w-3xl mx-auto">
+    <main className="container mx-auto py-4">
+      <Breadcrumbs items={breadcrumbsItems} />
+      <Card>
         <CardContent className="p-6 grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="relative aspect-[4/3] rounded-md overflow-hidden">
             {product.image && (

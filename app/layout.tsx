@@ -1,9 +1,7 @@
 import "./globals.css";
-import Link from "next/link";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Geist, Geist_Mono } from "next/font/google";
 import type { Metadata } from "next";
-import { ModeToggle } from "@/components/mode-toggle";
 import { Navbar } from "@/components/navbar";
 
 const geistSans = Geist({ subsets: ["latin"], variable: "--font-geist-sans" });
@@ -43,9 +41,10 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <header className="border-b py-4 bg-background text-foreground shadow-sm">
+          <header className="py-4 bg-background text-foreground shadow-sm">
             <Navbar />
-            <nav className="container mx-auto px-4 flex gap-4">
+            {/*
+              <nav className="container mx-auto flex gap-4 py-4">
               <Link
                 href="/"
                 className="hover:text-muted-foreground transition-colors"
@@ -57,12 +56,18 @@ export default function RootLayout({
                 className="hover:text-muted-foreground transition-colors"
               >
                 Products
-              </Link>
-              <ModeToggle />
+              </Link> 
             </nav>
+            */}
           </header>
           {children}
         </ThemeProvider>
+        <footer className="border-t mt-12 py-6">
+          <div className="container mx-auto text-center text-sm text-muted-foreground">
+            &copy; {new Date().getFullYear()} E-Commerce Store. All rights
+            reserved.
+          </div>
+        </footer>
       </body>
     </html>
   );
