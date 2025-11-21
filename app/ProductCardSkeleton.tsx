@@ -12,7 +12,7 @@ import {
 export function ProductCardSkeleton() {
   return (
     // Skeleton structure from ProductCard.tsx
-    <Card className="pt-0 overflow-hidden border-none">
+    <Card className="pt-0 overflow-hidden min-h-[400px]">
       <div className="relative aspect-video">
         <Skeleton className="absolute inset-0 object-cover w-full h-full" />
       </div>
